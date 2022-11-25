@@ -31,12 +31,32 @@ for ligne in lines:
 # for val in tab_ligne:
 #     print(val)
 
-# ajout du sommet alpha (premier sommet)
+# ajout du sommet alpha (premier sommet) et oméga
 
-tab_ligne = [[0,0]]+tab_ligne+[[len(tab_ligne)+1,]] ## il faut ajouter les prédecesseurs (voir comment les determiner)
+# determination des prédecesseurs de oméga
+tab_pre = []
+found = 0
 
+for i in range(1,len(tab_ligne)+1): # car il n'y a aucun 0 dans les prédécesseurs
+    for val in tab_ligne:
+        for j in range(2,len(val)):
+            if(i==val[j]):
+                found = 1
+    if (found==0):
+        tab_pre.append(i)
+    found = 0
+
+tab_omega = [len(tab_ligne)+1,0]+tab_pre
+
+# ajout du prédecesseur 0 pour les 2e sommets
+for ligne in tab_ligne:
+    if (len(ligne) == 2):
+        ligne.append(0)
+
+# ajout de alpha et oméga
+tab_ligne = [[0,0]]+tab_ligne+[tab_omega] # vérifier si les prédécesseurs de oméga sont bien ceux qui n'apparaissent pas dans les prédecesseurs
 
 for val in tab_ligne:
     print(val)
 
-### création du graph ### (sous forme de matrice de valeurs)
+### création du graph ### (sous forme de matrice de valeurs) # on va dire matrice d'adjacence pour l'instant (demander si c bien cette matrice)
