@@ -5,7 +5,6 @@ with open("table 1.txt") as file:
 print(lines)
 print(len(lines)) # afficher la taille de lines (le nombre de ligne du fichier.txt donc le nombre de sommet du graph)
 
-
 ### Pour mettre les valeurs du fic.txt dans un tab avec chaque valeur séparé plustot que tout dans un fic texte ###
 var = ""
 i = 0
