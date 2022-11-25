@@ -33,37 +33,21 @@ for val in lines: # rempli le tableau (marche que si les nombre a remplir ont 1 
         codetemp = val[0]
         if (val[3]==' '):
             durationtemp = val[2]
-            temp = 0
-            test = len(val)
-            while(val[temp+4]!='\n'):
-                pretemp.append(val[temp+4])
-                temp = temp + 1
         elif (val[4]==' '):
             durationtemp = val[2]+val[3]
-            temp = 0
-            while (val[temp+5] != '\n'):
-                pretemp.append(val[temp + 5])
-                temp = temp + 1
     elif (val[2]==' '):
         codetemp = val[0]+val[1]
         if (val[4]==' '):
             durationtemp = val[3]
-            temp = 0
-            while (val[temp+5] != '\n'):
-                pretemp.append(val[temp + 5])
-                temp = temp + 1
         elif (val[5]==' '):
             durationtemp = val[3]+val[4]
-            temp = 0
-            while (val[temp+6] != '\n'):
-                pretemp.append(val[temp + 6])
-                temp = temp + 1
     task_code.append(codetemp)
     task_duration.append(durationtemp)
-    task_pre.append(pretemp)
 
-for v in task_pre:
-    print(v)
+for i in task_code:
+    print(i)
+for j in task_duration:
+    print(j)
 
 #
 # duree = {}
