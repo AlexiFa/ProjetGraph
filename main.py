@@ -63,4 +63,4 @@ for val in tab_ligne:
 matrice = []
 for valH in tab_ligne:
     for valV in tab_ligne:
-        print('TODO')
+        TODO='faire la matrice'
