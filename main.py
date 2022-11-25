@@ -65,7 +65,6 @@ for val in lines: # rempli le tableau (marche que si les nombre a remplir ont 1 
 for v in task_pre:
     print(v)
 
-#
 # duree = {}
 # j=0
 # valeur = 0
