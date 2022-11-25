@@ -60,3 +60,7 @@ for val in tab_ligne:
     print(val)
 
 ### création du graph ### (sous forme de matrice de valeurs) # on va dire matrice d'adjacence pour l'instant (demander si c bien cette matrice)
+matrice = []
+for valH in tab_ligne:
+    for valV in tab_ligne:
+        if()
