@@ -64,5 +64,30 @@ def ajoutSommetsFictifs(tab):
     return tab_ligne
 
 # fonction création du graph sous forme de matrice
-#
-#
+# parametre : tableau dans lequel est stocké tout les sommets et leurs info
+# return : matrice de valeur
+# ('*' si les sommets n'ont pas d'arc les liant, la valeur de l'arc s'il existe)
+def graph(tab):
+    ### création du graph ### (sous forme de matrice de valeurs)
+    matrice = []
+    match = '*'
+    temp = []
+    for valH in tab:
+        for valV in tab:
+            if (len(valV) >= 3):
+                for i in range(2, len(valV)):  # vérifier
+                    if (valH[0] == valV[i]):
+                        match = valH[1]
+            temp.append(match)
+            match = '*'
+        matrice.append(temp)
+        temp = []
+
+    del match, temp, valV, valH, i
+    return matrice
+
+# fonction qui affiche la matrice avec les lignes et les colonnes alignées
+# parametre : la matrice à afficher
+def afficherMatrice(matrice):
+    for val in matrice:
+        print(*val, sep='   ')
