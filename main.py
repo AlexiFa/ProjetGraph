@@ -1,107 +1,41 @@
+import fonctions
 
-with open(".\\tableau_test\\table 1.txt") as file:
-    lines = file.readlines() # lines : contenu du fichier.txt merde
+path = ".\\tableau_test\\table 1.txt"
+## on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
+tab = fonctions.readTab(path)
 
-# print(lines)
-# print(len(lines)) # afficher la taille de lines (le nombre de ligne du fichier.txt donc le nombre de sommet du graph)
-
-### Pour mettre les valeurs du fic.txt dans un tab avec chaque valeur séparé plutôt que tout dans un fic texte ###
-var = ""
-i = 0
-k = 0
-tab_inter = []
-tab_ligne = []
-for ligne in lines:
-    while (i<len(ligne)): # pour toute la longueur de la ligne
-        if (ligne[i]==" " or ligne[i]=="\n"): # si on arrive à la fin d'un chiffre (ils sont séparé par les espaces sauf le dernier qui fini par un \n
-            for j in range(k,i):
-                var = var + ligne[j] # alors on met dans var les chiffres qui précèdent à partir du dernier espace (ou bien de 0 si c'est le premier)
-            var = var.replace(" ","") # on supprime l'espace qui précède le nombre car il est compris dans la ligne précedente
-            if (var!=""): # avec la condition du while, si il y a un espace avant le \n, alors il l'ajoute quand même dans le tableau donc on met un if
-                tab_inter.append(int(var)) # tab temporaire pour stocker 1 ligne
-            k = i # on met k à i pour que dans le for la lecture continue làa ou elle s'est arreté (sinon ca recommence à 0 à chaque fois et on a plz fois le 1er nombre
-            var = "" # on met var à "" pour le prochain nombre
-        i = i+1
-    tab_ligne.append(tab_inter) # on met la ligne dans le tab final
-    tab_inter = [] # on réinitialise tout pour la prochaine ligne
-    i = 0
-    k = 0
-    var = ""
-del var,i,k,tab_inter,ligne,j ## suppr les variable temp qu'on a créer pour fabriquer le tableau
-# for val in tab_ligne:
+# for val in tab:
 #     print(val)
 
-# ajout du sommet alpha (premier sommet) et oméga
+## on ajoute les sommet alpha et oméga qui sont au tout début et à la toute fin pour avoir un seul pt de départ et un seul pt d'arrivée
+tab = fonctions.ajoutSommetsFictifs(tab)
 
-# determination des prédecesseurs de oméga
-tab_pre = []
-found = 0
-
-for i in range(1,len(tab_ligne)+1): # car il n'y a aucun 0 dans les prédécesseurs
-    for val in tab_ligne:
-        for j in range(2,len(val)):
-            if(i==val[j]):
-                found = 1
-    if (found==0):
-        tab_pre.append(i)
-    found = 0
-
-tab_omega = [len(tab_ligne)+1,0]+tab_pre
-
-# ajout du prédecesseur 0 pour les 2e sommets
-for ligne in tab_ligne:
-    if (len(ligne) == 2):
-        ligne.append(0)
-
-# ajout de alpha et oméga
-tab_ligne = [[0,0]]+tab_ligne+[tab_omega] # vérifier si les prédécesseurs de oméga sont bien ceux qui n'apparaissent pas dans les prédecesseurs
-
-del tab_pre,found,tab_omega,i,val,j,ligne
-
-# for val in tab_ligne:
+# for val in tab:
 #     print(val)
 
-### création du graph ### (sous forme de matrice de valeurs) # on va dire matrice d'adjacence pour l'instant (demander si c bien cette matrice)
-matrice = []
-match = 0
-temp = []
-for valH in tab_ligne:
-    for valV in tab_ligne:
-        if (len(valV)>=3):
-            for i in range(2,len(valV)): # vérifier
-                if (valH[0]==valV[i]):
-                    match = 1
-        temp.append(match)
-        match = 0
-    matrice.append(temp)
-    temp = []
+### création du graph ### (sous forme de matrice de valeurs)
 
-# for val in matrice:
-#     print(val)
-
-del match,temp,valV,valH,i
+matrice = fonctions.graph(tab)
+# fonctions.afficherMatrice(matrice)
 
 ## on a ajouter le point d'entrée et le point de sortie manuellement donc on est sur qu'il y en a qu'un de chaque
 
 ## vérification qu'il n'y ai pas de circuit ##
 
 # stocker les predececeurs et les successeurs
-for val in tab_ligne:
-    print(val)
+# for val in tab_ligne:
+#     print(val)
 tab_pre = []
-for sommet in tab_ligne:
+for sommet in tab:
     if(len(sommet)>=3):
         for pre in sommet:
             tab_pre.append(pre)
 
-for val in tab_pre:
-    print(val)
+# for val in tab_pre:
+#     print(val)
 
-## methode de Roy-Warshall
+# get tout les sommets entrée du graph
+tab_voila = fonctions.del_entree(tab)  # attention marche pour la premiere occurence mais pas pour celle d'apres
 
-i = 0
-MA_trans = matrice # matrice d'adjacence de la fermueture transitive
-for sommet in range(0,15):
-    for prede in tab_ligne[sommet]:
-        for succ in matrice[sommet]:
-            a=2
+# for ivref in range(0, len(tab)):
+#     tab_voila = fonctions.del_entree(tab_voila)  # ne marche pas
