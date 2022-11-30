@@ -12,12 +12,12 @@ def readTab(path):
     tab_inter = []
     tab_ligne = []
     for ligne in lines:
-        while (i < len(ligne)):  # pour toute la longueur de la ligne
-            if (ligne[i] == " " or ligne[i] == "\n"):  # si on arrive à la fin d'un chiffre (ils sont séparé par les espaces sauf le dernier qui fini par un \n
+        while i < len(ligne):  # pour toute la longueur de la ligne
+            if ligne[i] == " " or ligne[i] == "\n":  # si on arrive à la fin d'un chiffre (ils sont séparé par les espaces sauf le dernier qui fini par un \n
                 for j in range(k, i):
                     var = var + ligne[j]  # alors on met dans var les chiffres qui précèdent à partir du dernier espace (ou bien de 0 si c'est le premier)
                 var = var.replace(" ", "")  # on supprime l'espace qui précède le nombre car il est compris dans la ligne précedente
-                if (var != ""):  # avec la condition du while, si il y a un espace avant le \n, alors il l'ajoute quand même dans le tableau donc on met un if
+                if var != "":  # avec la condition du while, si il y a un espace avant le \n, alors il l'ajoute quand même dans le tableau donc on met un if
                     tab_inter.append(int(var))  # tab temporaire pour stocker 1 ligne
                 k = i  # on met k à i pour que dans le for la lecture continue làa ou elle s'est arreté (sinon ca recommence à 0 à chaque fois et on a plz fois le 1er nombre
                 var = ""  # on met var à "" pour le prochain nombre
@@ -44,9 +44,9 @@ def ajoutSommetsFictifs(tab):
     for i in range(1, len(tab) + 1):  # car il n'y a aucun 0 dans les prédécesseurs
         for val in tab:
             for j in range(2, len(val)):
-                if (i == val[j]):
+                if i == val[j]:
                     found = 1
-        if (found == 0):
+        if found == 0:
             tab_pre.append(i)
         found = 0
 
@@ -54,7 +54,7 @@ def ajoutSommetsFictifs(tab):
 
     # ajout du prédecesseur 0 pour les 2e sommets
     for ligne in tab:
-        if (len(ligne) == 2):
+        if len(ligne) == 2:
             ligne.append(0)
 
     # ajout de alpha et oméga
@@ -74,9 +74,9 @@ def graph(tab):
     temp = []
     for valH in tab:
         for valV in tab:
-            if (len(valV) >= 3):
+            if len(valV) >= 3:
                 for i in range(2, len(valV)):  # vérifier
-                    if (valH[0] == valV[i]):
+                    if valH[0] == valV[i]:
                         match = valH[1]
             temp.append(match)
             match = '*'
@@ -91,3 +91,34 @@ def graph(tab):
 def afficherMatrice(matrice):
     for val in matrice:
         print(*val, sep='   ')
+
+# fonction pour avoir le numero des sommets entrée du graph
+# parametre : le graph a étudier sous la forme du tab avec les sommets et les info (exple : return de la fonction ajoutsommetfictif())
+# return : un tab avec les num des sommets entrée
+def get_entree(graph):
+    tab_entree = []
+    for sommet in graph:
+        if len(sommet) == 2:
+            tab_entree.append(sommet[0])
+    return tab_entree
+
+# fonction qui supprime les sommet entrée (en les effaçant de leur successeur car ils sont stockée comme prédecesseurs)
+# parametre : tab 2D avec les info de chaque sommet (comme au début)
+# return : tab2D avec les sommets entrée effacé
+def del_entree(tab_copie):
+    tab_entree = get_entree(tab_copie)
+    indice = []
+
+    for entr in tab_entree:
+        for i in range(0, len(tab_copie)):
+            if tab_copie[i][0] == entr:
+                indice.append(i)
+                for j in range(0, len(tab_copie)):
+                    if len(tab_copie[j]) <= 2:
+                        continue
+                    for k in range(2, len(tab_copie[j])):
+                        if tab_copie[j][k] == entr:
+                            tab_copie[j].pop(k)
+    for i in indice:
+        tab_copie.pop(i)
+    return tab_copie

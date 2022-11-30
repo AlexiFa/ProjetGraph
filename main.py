@@ -1,7 +1,8 @@
 import fonctions
 
+path = ".\\tableau_test\\table 1.txt"
 ## on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
-tab = fonctions.readTab(".\\tableau_test\\table 1.txt")
+tab = fonctions.readTab(path)
 
 # for val in tab:
 #     print(val)
@@ -33,11 +34,8 @@ for sommet in tab:
 # for val in tab_pre:
 #     print(val)
 
-## methode de Roy-Warshall
+# get tout les sommets entrée du graph
+tab_voila = fonctions.del_entree(tab)  # attention marche pour la premiere occurence mais pas pour celle d'apres
 
-i = 0
-MA_trans = matrice # matrice d'adjacence de la fermueture transitive
-for sommet in range(0,15):
-    for prede in tab[sommet]:
-        for succ in matrice[sommet]:
-            a=2
+# for ivref in range(0, len(tab)):
+#     tab_voila = fonctions.del_entree(tab_voila)  # ne marche pas
