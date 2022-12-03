@@ -2,41 +2,47 @@ import fonctions
 import os
 
 # boucle main avec l'interface utilisateur :
+# en commentaire pour les tests
+# while 1:
+#     print('Voici les fichiers texte disponible\n')
+#     for file in os.listdir('./tableau_test'):
+#         print(file, end=' | ')
+#     print('\n\nVeuillez en choisir un (entrez le nom complet du fichier avec l\'extention) :')
+#     print('Si vous voulez quitter, tappez "quit" ou "exit"')
+#     fichier = input()
+#     if fichier == 'quit' or fichier == 'exit':
+#         break
+#     path = ".\\tableau_test\\"+fichier
+#
+#     # on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
+#     try:
+#         tab = fonctions.readTab(path)
+#     except FileNotFoundError:
+#         print("Fichier non trouvé")
+#         continue
+#
+#     # on ajoute les sommets alpha et oméga qui sont au tout début et à la toute fin pour avoir un seul pt de départ et un seul pt d'arrivée
+#     tab = fonctions.ajoutSommetsFictifs(tab)
+#
+#     # création et affichage du graph # (sous forme de matrice de valeurs)
+#     matrice = fonctions.graph(tab)
+#     fonctions.afficherMatrice(matrice)
+#
+#     # vérif qu'il n'y ai pas de circuit
+#
+#     if fonctions.isCircuit(tab):  # il faudra ajouter la fonction de vérif des arcs positifs
+#         print('Erreur, ce graph n\'est pas un graph d\'ordonnancement : on ne peu donc pas executer les calculs')
+#         continue
+#     else:
+#         print('il y a pas de circuit')
 
-while 1:
-    print('Voici les fichiers texte disponible\n')
-    for file in os.listdir('./tableau_test'):
-        print(file, end=' | ')
-    print('\n\nVeuillez en choisir un (entrez le nom complet du fichier avec l\'extention) :')
-    print('Si vous voulez quitter, tappez "quit" ou "exit"')
-    fichier = input()
-    if fichier == 'quit' or fichier == 'exit':
-        break
-    path = ".\\tableau_test\\"+fichier
 
-    # on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
-    tab = fonctions.readTab(path)  # TODO : faire une exception si le fichier n'est pas trouvé
-
-    # on ajoute les sommets alpha et oméga qui sont au tout début et à la toute fin pour avoir un seul pt de départ et un seul pt d'arrivée
-    tab = fonctions.ajoutSommetsFictifs(tab)
-
-    # création et affichage du graph # (sous forme de matrice de valeurs)
-    matrice = fonctions.graph(tab)
-    fonctions.afficherMatrice(matrice)
-
-    # vérif qu'il n'y ai pas de circuit
-
-    if fonctions.isCircuit(tab):  # il faudra ajouter la fonction de vérif des arcs positifs
-        print('Erreur, ce graph n\'est pas un graph d\'ordonnancement : on ne peu donc pas executer les calculs')
-        continue
-    else:
-        print('il y a pas de circuit')
-
-
-path = ".\\tableau_test\\table 1.txt"
+path = ".\\tableau_test\\table 2.txt"
 ## on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
-tab = fonctions.readTab(path)  # TODO : faire une exception si le fichier n'est pas trouvé
-
+try:
+    tab = fonctions.readTab(path)
+except FileNotFoundError:
+    print('Fichier non trouvé')
 # for val in tab:
 #     print(val)
 
@@ -79,8 +85,13 @@ for sommet in tab:
 #     else:
 #         print("il y a un circuit")
 #         break
-
-if fonctions.isCircuit(tab):
+tab_circ = [item[:] for item in tab]  # pour créer une copie sans
+print(tab)
+if fonctions.isCircuit(tab_circ):
     print('il y a un circuit')
 else:
     print('il y a pas de circuit')
+
+print(tab)
+tab_prede = fonctions.nbPrede(tab)
+print(tab_prede)

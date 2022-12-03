@@ -90,6 +90,7 @@ def graph(tab):
 def afficherMatrice(matrice):
     for val in matrice:
         print(*val, sep='\t')  # on affiche la matrice en suppr les ', les virgules et les [] pour que tout soit aligné
+    del val
 
 # fonction pour avoir le numero des sommets entrée du graph
 # parametre : le graph a étudier sous la forme du tab avec les sommets et les info (exple : return de la fonction ajoutsommetfictif())
@@ -99,6 +100,7 @@ def get_entree(graph):
     for sommet in graph:
         if len(sommet) == 2:  # si le sommet n'as aucun prede (donc c une entrée
             tab_entree.append(sommet[0])
+    del sommet
     return tab_entree
 
 # fonction qui supprime les sommet entrée (en les effaçant de leur successeur car ils sont stockée comme prédecesseurs)
@@ -132,6 +134,7 @@ def del_entree(tab_copie):
         for ind in reversed(indice):  # pour chaque indice (reversed car les sommets sont rangé dans l'ordre croissant donc comme ca on ne change pas les indices si on suppr plz sommet en mm temps)
             if i == ind:
                 tab_copie.pop(i)  # si l'indice est le même qu'on sommet entrée alors on suppr
+
     return tab_copie
 
 # fonction qui suppr les sommets à petit pour determiner s'il y a un circuit
@@ -146,5 +149,14 @@ def isCircuit(tab_voila):
             size_temp = size
         else:
             return 1
-            break
     return 0
+
+# fonction qui calcul le nombre d'arc entrant dans un sommet (le nombre de predecesseur)
+# parametre : tab 2D avec les info de chaque sommet (comme au début)
+# return : un tableau 2D avec le nombre de prede de chaque sommet aux indices correspondant
+def nbPrede(tab):
+    tab_nb = []
+    for ligne in tab:
+        nb = len(ligne)-2  # compte le nombre de case apres les deux première (le nombre de case dans la colonne des prede)
+        tab_nb.append(nb)
+    return tab_nb
