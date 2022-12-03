@@ -104,9 +104,11 @@ def get_entree(graph):
 # fonction qui supprime les sommet entrée (en les effaçant de leur successeur car ils sont stockée comme prédecesseurs)
 # parametre : tab 2D avec les info de chaque sommet (comme au début)
 # return : tab2D avec les sommets entrée effacé
+# TODO : cette fonction ne marche pas comme prévu (si on la fait plz fois il y a un stackoverflow)
 def del_entree(tab_copie):
     tab_entree = get_entree(tab_copie)  # on recup toute les entrée du graph
     indice = []
+    indice_2 = []
 
     for entr in tab_entree:
         for i in range(0, len(tab_copie)):
@@ -117,7 +119,11 @@ def del_entree(tab_copie):
                         continue
                     for k in range(2, len(tab_copie[j])):
                         if tab_copie[j][k] == entr:
-                            tab_copie[j].pop(k)
+                            indice_2.append(k)
+                            #tab_copie[j].pop(k)
+                    for h in indice_2:
+                        tab_copie[j].pop(h)
+                    indice_2 = []
     for i in indice:
         tab_copie.pop(i)
     return tab_copie

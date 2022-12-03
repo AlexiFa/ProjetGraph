@@ -4,8 +4,8 @@ path = ".\\tableau_test\\table 1.txt"
 ## on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
 tab = fonctions.readTab(path)
 
-# for val in tab:
-#     print(val)
+for val in tab:
+    print(val)
 
 ## on ajoute les sommet alpha et oméga qui sont au tout début et à la toute fin pour avoir un seul pt de départ et un seul pt d'arrivée
 tab = fonctions.ajoutSommetsFictifs(tab)
@@ -36,6 +36,15 @@ for sommet in tab:
 
 # get tout les sommets entrée du graph
 tab_voila = fonctions.del_entree(tab)  # attention marche pour la premiere occurence mais pas pour celle d'apres
+size = len(tab_voila)
+size_temp = size
 
-# for ivref in range(0, len(tab)):
-#     tab_voila = fonctions.del_entree(tab_voila)  # ne marche pas
+while len(tab_voila) >= 1:
+    tab_voila = fonctions.del_entree(tab_voila)
+    size = len(tab_voila)
+    if size < size_temp:
+        size_temp = size
+    else:
+        print("il y a un circuit")
+        break
+    print("il n'y a pas de circuit")
