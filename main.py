@@ -4,10 +4,10 @@ import os
 # boucle main avec l'interface utilisateur :
 
 while 1:
-    print('Voici les fichiers texte disponible')
+    print('Voici les fichiers texte disponible\n')
     for file in os.listdir('./tableau_test'):
-        print(file)
-    print('\nVeuillez en choisir un (entrez le nom complet du fichier avec l\'extention) :')
+        print(file, end=' | ')
+    print('\n\nVeuillez en choisir un (entrez le nom complet du fichier avec l\'extention) :')
     print('Si vous voulez quitter, tappez "quit" ou "exit"')
     fichier = input()
     if fichier == 'quit' or fichier == 'exit':
