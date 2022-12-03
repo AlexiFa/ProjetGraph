@@ -133,3 +133,18 @@ def del_entree(tab_copie):
             if i == ind:
                 tab_copie.pop(i)  # si l'indice est le même qu'on sommet entrée alors on suppr
     return tab_copie
+
+# fonction qui suppr les sommets à petit pour determiner s'il y a un circuit
+# parametre : tab 2D avec les info de chaque sommet (comme au début)
+# return : 1 si il y a un circuit et 0 s'il n'y en a pas
+def isCircuit(tab_voila):
+    while len(tab_voila) >= 1:
+        size_temp = len(tab_voila)
+        tab_voila = del_entree(tab_voila)
+        size = len(tab_voila)
+        if size < size_temp:
+            size_temp = size
+        else:
+            return 1
+            break
+    return 0

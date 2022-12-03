@@ -14,9 +14,26 @@ while 1:
         break
     path = ".\\tableau_test\\"+fichier
 
+    # on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
+    tab = fonctions.readTab(path)  # TODO : faire une exception si le fichier n'est pas trouvé
 
-# path = ".\\tableau_test\\table 2.txt"
-path = ".\\tableau_test\\"+fichier
+    # on ajoute les sommets alpha et oméga qui sont au tout début et à la toute fin pour avoir un seul pt de départ et un seul pt d'arrivée
+    tab = fonctions.ajoutSommetsFictifs(tab)
+
+    # création et affichage du graph # (sous forme de matrice de valeurs)
+    matrice = fonctions.graph(tab)
+    fonctions.afficherMatrice(matrice)
+
+    # vérif qu'il n'y ai pas de circuit
+
+    if fonctions.isCircuit(tab):  # il faudra ajouter la fonction de vérif des arcs positifs
+        print('Erreur, ce graph n\'est pas un graph d\'ordonnancement : on ne peu donc pas executer les calculs')
+        continue
+    else:
+        print('il y a pas de circuit')
+
+
+path = ".\\tableau_test\\table 1.txt"
 ## on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
 tab = fonctions.readTab(path)  # TODO : faire une exception si le fichier n'est pas trouvé
 
@@ -51,16 +68,19 @@ for sommet in tab:
 #     print(val)
 
 # get tout les sommets entrée du graph
-tab_voila = fonctions.del_entree(tab)  # attention marche pour la premiere occurence mais pas pour celle d'apres
-size = len(tab_voila)
-size_temp = size
+# tab_voila = fonctions.del_entree(tab)  # attention marche pour la premiere occurence mais pas pour celle d'apres
 
-while len(tab_voila) >= 1:
-    tab_voila = fonctions.del_entree(tab_voila)
-    size = len(tab_voila)
-    if size < size_temp:
-        size_temp = size
-    else:
-        print("il y a un circuit")
-        break
-    # print("il n'y a pas de circuit")
+# while len(tab_voila) >= 1:
+#     size_temp = len(tab_voila)
+#     tab_voila = fonctions.del_entree(tab_voila)
+#     size = len(tab_voila)
+#     if size < size_temp:
+#         size_temp = size
+#     else:
+#         print("il y a un circuit")
+#         break
+
+if fonctions.isCircuit(tab):
+    print('il y a un circuit')
+else:
+    print('il y a pas de circuit')
