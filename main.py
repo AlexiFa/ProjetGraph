@@ -1,11 +1,11 @@
 import fonctions
 
-path = ".\\tableau_test\\table 1.txt"
+path = ".\\tableau_test\\table 2.txt"
 ## on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
 tab = fonctions.readTab(path)
 
-for val in tab:
-    print(val)
+# for val in tab:
+#     print(val)
 
 ## on ajoute les sommet alpha et oméga qui sont au tout début et à la toute fin pour avoir un seul pt de départ et un seul pt d'arrivée
 tab = fonctions.ajoutSommetsFictifs(tab)
@@ -16,7 +16,7 @@ tab = fonctions.ajoutSommetsFictifs(tab)
 ### création du graph ### (sous forme de matrice de valeurs)
 
 matrice = fonctions.graph(tab)
-# fonctions.afficherMatrice(matrice)
+fonctions.afficherMatrice(matrice)
 
 ## on a ajouter le point d'entrée et le point de sortie manuellement donc on est sur qu'il y en a qu'un de chaque
 
@@ -27,7 +27,7 @@ matrice = fonctions.graph(tab)
 #     print(val)
 tab_pre = []
 for sommet in tab:
-    if(len(sommet)>=3):
+    if len(sommet) >= 3:
         for pre in sommet:
             tab_pre.append(pre)
 

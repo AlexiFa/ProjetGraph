@@ -104,26 +104,32 @@ def get_entree(graph):
 # fonction qui supprime les sommet entrée (en les effaçant de leur successeur car ils sont stockée comme prédecesseurs)
 # parametre : tab 2D avec les info de chaque sommet (comme au début)
 # return : tab2D avec les sommets entrée effacé
-# TODO : cette fonction ne marche pas comme prévu (si on la fait plz fois il y a un stackoverflow)
 def del_entree(tab_copie):
     tab_entree = get_entree(tab_copie)  # on recup toute les entrée du graph
-    indice = []
-    indice_2 = []
+    indice = []  # tab avec les indices des entrée dans le tab avec tout les sommets
+    indice_2 = []  # tab avec les indices des prédecesseurs qui vont être suppr
 
-    for entr in tab_entree:
-        for i in range(0, len(tab_copie)):
+    for entr in tab_entree:  # pour chaque entrée
+        for i in range(0, len(tab_copie)):  # pour chaque sommet
             if tab_copie[i][0] == entr:
-                indice.append(i)
-                for j in range(0, len(tab_copie)):
+                indice.append(i)  # si le sommet actuel est une entrée, on note son indice car il faudra le suppr
+                # on ne suppr pas le sommet directement pour eviter de changer la taille du tableau quand on le parcours
+                # et on veux suppr aussi ce sommet dans les prédecesseurs
+                for j in range(0, len(tab_copie)):  # pour chaque sommets
                     if len(tab_copie[j]) <= 2:
-                        continue
-                    for k in range(2, len(tab_copie[j])):
+                        continue  # si sa taille est de 2 (ou moins même si ca n'arrive jamais) alors il n'y a pas de predecesseur à suppr car c'est une entrée
+                        # le continue fait qu'on passe au sommet suivant et on skip les lignes suivantes (dans le for)
+                    for k in range(2, len(tab_copie[j])):  # on regarde tout les predecesseurs
                         if tab_copie[j][k] == entr:
-                            indice_2.append(k)
-                            #tab_copie[j].pop(k)
-                    for h in indice_2:
-                        tab_copie[j].pop(h)
-                    indice_2 = []
-    for i in indice:
-        tab_copie.pop(i)
+                            indice_2.append(k)  # si on trouve le prede, alors on note son indice car il faudra le suppr
+                    for h in indice_2:  # apres avoir parcouru les prede du sommet on suppr aux indices qu'on a noté
+                        tab_copie[j].pop(h)  # ne marche pas s'il y a deux fois le même predecesseur (mais en dans les tab de test ca n'arrive jamais et ca n'aurai pas de sens quand on parle d'un projet avec des taches et des durée)
+                        # techniquement on pourrai faire une boucle inverse pour pouvoir suppr deux prede en même temps mais comme il ne peut pas avoir deux fois le meme prede alors on l'a pas fait
+                        # TODO : si on a le temps, on peu améliorer le code en suppr tout les prede en mm temps (ca pour l'instant on les fait un par un)
+                        # ca sera plus opti car moins de boucle dans les boucle
+                    indice_2 = []  # reset des indices pour le sommet suivant
+    for i in reversed(range(0, len(tab_copie))):  # pour chaque sommet (reversed pas obliatoire)
+        for ind in reversed(indice):  # pour chaque indice (reversed car les sommets sont rangé dans l'ordre croissant donc comme ca on ne change pas les indices si on suppr plz sommet en mm temps)
+            if i == ind:
+                tab_copie.pop(i)  # si l'indice est le même qu'on sommet entrée alors on suppr
     return tab_copie
