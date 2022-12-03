@@ -89,7 +89,7 @@ def graph(tab):
 # parametre : la matrice à afficher
 def afficherMatrice(matrice):
     for val in matrice:
-        print(*val, sep='   ')  # on affiche la matrice en suppr les ', les virgules et les [] pour que tout soit aligné
+        print(*val, sep='\t')  # on affiche la matrice en suppr les ', les virgules et les [] pour que tout soit aligné
 
 # fonction pour avoir le numero des sommets entrée du graph
 # parametre : le graph a étudier sous la forme du tab avec les sommets et les info (exple : return de la fonction ajoutsommetfictif())
