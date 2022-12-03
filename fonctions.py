@@ -106,7 +106,7 @@ def get_entree(graph):
 # fonction qui supprime les sommet entrée (en les effaçant de leur successeur car ils sont stockée comme prédecesseurs)
 # parametre : tab 2D avec les info de chaque sommet (comme au début)
 # return : tab2D avec les sommets entrée effacé
-def del_entree(tab_copie):
+def del_entree(tab_copie, iteration, tache):
     tab_entree = get_entree(tab_copie)  # on recup toute les entrée du graph
     indice = []  # tab avec les indices des entrée dans le tab avec tout les sommets
     indice_2 = []  # tab avec les indices des prédecesseurs qui vont être suppr
@@ -133,21 +133,33 @@ def del_entree(tab_copie):
     for i in reversed(range(0, len(tab_copie))):  # pour chaque sommet (reversed pas obliatoire)
         for ind in reversed(indice):  # pour chaque indice (reversed car les sommets sont rangé dans l'ordre croissant donc comme ca on ne change pas les indices si on suppr plz sommet en mm temps)
             if i == ind:
+                tache.append(tab_copie[i][0])  # on note le code de la tache à qui on veux ajouter le rang
+                # on le fait avant que le tableau soit modifié
                 tab_copie.pop(i)  # si l'indice est le même qu'on sommet entrée alors on suppr
-
+    # jsp pk mais les del ne marchent pas dans cette fonction (à chercher)
     return tab_copie
 
 # fonction qui suppr les sommets à petit pour determiner s'il y a un circuit
 # parametre : tab 2D avec les info de chaque sommet (comme au début)
 # return : 1 si il y a un circuit et 0 s'il n'y en a pas
-def isCircuit(tab_voila):
+def isCircuit(tab_voila, tab_rang):
+    tab_ref = [item[:] for item in tab_voila]
+    tache = []  # les code des tache à qui on va ajouter le rang
+    iteration = 0  # itération qui va determiner le rang du sommet en cours
     while len(tab_voila) >= 1:
         size_temp = len(tab_voila)
-        tab_voila = del_entree(tab_voila)
+        tab_voila = del_entree(tab_voila, iteration, tache)
+        for val in tache:
+            for a in range(0, len(tab_ref)):
+                if tab_ref[a][0] == val:
+                    tab_rang[a] = iteration
+        tache = []
+        iteration += 1  # a chaque fois qu'on suppr les racine actuelle, on passe à l'itération suivante
         size = len(tab_voila)
         if size < size_temp:
             size_temp = size
         else:
+            del size_temp, size
             return 1
     return 0
 
@@ -159,4 +171,5 @@ def nbPrede(tab):
     for ligne in tab:
         nb = len(ligne)-2  # compte le nombre de case apres les deux première (le nombre de case dans la colonne des prede)
         tab_nb.append(nb)
+    del ligne, nb
     return tab_nb

@@ -87,11 +87,14 @@ for sommet in tab:
 #         break
 tab_circ = [item[:] for item in tab]  # pour créer une copie sans
 print(tab)
-if fonctions.isCircuit(tab_circ):
+tab_rang = fonctions.nbPrede(tab)
+
+if fonctions.isCircuit(tab_circ, tab_rang):
     print('il y a un circuit')
 else:
     print('il y a pas de circuit')
 
+print(tab_rang)  # AAAAH OUI LE CALCUL DES RANG MARCHE (en tout ca ca marche pour le table 2.txt) (pour les table qui ont des circuit ce n'est pas la peine de les caculer)
 print(tab)
 tab_prede = fonctions.nbPrede(tab)
 print(tab_prede)
