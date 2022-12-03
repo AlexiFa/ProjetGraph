@@ -1,8 +1,24 @@
 import fonctions
+import os
 
-path = ".\\tableau_test\\table 2.txt"
+# boucle main avec l'interface utilisateur :
+
+while 1:
+    print('Voici les fichiers texte disponible')
+    for file in os.listdir('./tableau_test'):
+        print(file)
+    print('\nVeuillez en choisir un (entrez le nom complet du fichier avec l\'extention) :')
+    print('Si vous voulez quitter, tappez "quit" ou "exit"')
+    fichier = input()
+    if fichier == 'quit' or fichier == 'exit':
+        break
+    path = ".\\tableau_test\\"+fichier
+
+
+# path = ".\\tableau_test\\table 2.txt"
+path = ".\\tableau_test\\"+fichier
 ## on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
-tab = fonctions.readTab(path)
+tab = fonctions.readTab(path)  # TODO : faire une exception si le fichier n'est pas trouvé
 
 # for val in tab:
 #     print(val)
@@ -47,4 +63,4 @@ while len(tab_voila) >= 1:
     else:
         print("il y a un circuit")
         break
-    print("il n'y a pas de circuit")
+    # print("il n'y a pas de circuit")
