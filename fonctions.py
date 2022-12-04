@@ -223,7 +223,7 @@ def graphSucc(tab):
     return tab_arc
 
 # fonction qui affiche le graph avec chacun de ses sommets et ses succ
-# parametre : tab avec les successeurs et les durée donnée par la fonction graphSucc et le tab ref avec toutes les info
+# parametre : tab avec les successeurs et les durées donnée par la fonction graphSucc et le tab ref avec toutes les info
 # return : affichage
 def afficherGraph(tab, tab_ref):
     tab_temp = [item[:] for item in tab]  # avoir une copie qu'on peut modifier
@@ -249,6 +249,7 @@ def afficherGraph(tab, tab_ref):
             i += 1
     for arc in tab_ordre:
         print(arc[0], ' -> ', arc[2], ' = ', arc[1])
+    return tab_ordre
 
 
 
@@ -295,3 +296,12 @@ def afficherGraph(tab, tab_ref):
 #                     #     tab_circuit = [len(tab_ref) - 1]
 #                     fini = True
 #         return fini
+
+# fonction des chamin mais avec les succ et non les prede
+# def cheminblala(tab_arcs):
+#     tab_chemins = [0]
+#     i = 0
+#     for i in range(0, tab_arcs):
+#         if tab_chemins[i] != tab_arcs[i] and tab_chemins[i-1] == :
+#             tab_chemins.append(arc[0])
+#             i += 1
