@@ -33,7 +33,7 @@ while 1:
     tab_circ = [item[:] for item in tab]  # pour créer une copie sans que lorsqu'on modifi l'un l'autre change aussi (var indépendante)
     tab_rang = fonctions.nbPrede(tab)  # avoir un tableau de la taille de tab qu'on pourra modifier dans la fonction
 
-    if fonctions.isCircuit(tab_circ, tab_rang):  # il faudra ajouter la fonction de vérif des arcs positifs
+    if fonctions.isCircuit(tab_circ, tab_rang) or fonctions.isArcNegatif(tab):  # il faudra ajouter la fonction de vérif des arcs positifs
         print('Erreur, ce graph n\'est pas un graph d\'ordonnancement : on ne peu donc pas executer les calculs')
         continue
     else:
@@ -102,3 +102,8 @@ print(tab_rang)  # AAAAH OUI LE CALCUL DES RANG MARCHE (en tout ca ca marche pou
 print(tab)
 tab_prede = fonctions.nbPrede(tab)
 print(tab_prede)
+
+if fonctions.isArcNegatif(tab):
+    print("négatif")
+else:
+    print("pas négatif")

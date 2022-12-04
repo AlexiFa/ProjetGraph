@@ -88,7 +88,14 @@ def graph(tab):
 # fonction qui affiche la matrice avec les lignes et les colonnes alignées
 # parametre : la matrice à afficher
 def afficherMatrice(matrice):
-    for val in matrice:
+    new_matrice = []
+    for num in range(0, len(matrice)):
+        new_matrice.append([num] + matrice[num])
+    print('', end='\t')  # pour aligner les colonnes
+    for i in range(0, len(matrice)):  # pour afficher les num au niveau des colonnes
+        print(i, end='\t')
+    print()
+    for val in new_matrice:
         print(*val, sep='\t')  # on affiche la matrice en suppr les ', les virgules et les [] pour que tout soit aligné
     del val
 
@@ -174,3 +181,11 @@ def nbPrede(tab):
         tab_nb.append(nb)
     del ligne, nb
     return tab_nb
+# fonction qui verifie s'il y a un arc à valeur négative
+# parametre : tab 2D avec les info du graph
+# return : 1 s'il y a un arc négatif et 0 sinon
+def isArcNegatif(tab):
+    for i in range(len(tab)):
+        if (tab[i][1] < 0):
+            return 1
+    return 0
