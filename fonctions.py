@@ -223,7 +223,7 @@ def graphSucc(tab):
     return tab_arc
 
 # fonction qui affiche le graph avec chacun de ses sommets et ses succ
-# parametre : tab avec les successeurs et les durée donnée par la fonction graphSucc et le tab ref avec toutes les info
+# parametre : tab avec les successeurs et les durées donnée par la fonction graphSucc et le tab ref avec toutes les info
 # return : affichage
 def afficherGraph(tab, tab_ref):
     tab_temp = [item[:] for item in tab]  # avoir une copie qu'on peut modifier
@@ -249,6 +249,7 @@ def afficherGraph(tab, tab_ref):
             i += 1
     for arc in tab_ordre:
         print(arc[0], ' -> ', arc[2], ' = ', arc[1])
+    return tab_ordre
 
 
 
@@ -256,42 +257,51 @@ def afficherGraph(tab, tab_ref):
 
 
 
-# # TODO : fonction qui calcul un chemin (il va ptre falloir faire quelques modifs)
-# # parametre : tab avec uniquement les prédécesseurs
-# # return : le chemin le plus long (liste des sommets et on calculera la duree apres)
-# def cheminCritique(tab_pre, tab_ref, code, tab_circuit, fini, tab_chemins):
-#     # if code == 0 or fini:
-#     #     return fini
-#     # else:
-#     #     new_tab_pre = []
-#     #     for prede in tab_pre:
-#     #         if not fini:
-#     #             for sommet in tab_ref:
-#     #                 if sommet[0] == prede and not fini:
-#     #                     tab_circuit.append(sommet[0])
-#     #                     code = sommet[0]
-#     #                     for pre in range(2, len(sommet)):
-#     #                         new_tab_pre.append(sommet[pre])
-#     #                     fini = cheminCritique(new_tab_pre, tab_ref, code, tab_circuit, fini, tab_chemins)
-#     #                     if not fini:
-#     #                         tab_chemins.append(tab_circuit)
-#     #                         tab_circuit = [len(tab_ref)-1]
-#     #                     fini = True
-#     #         else:
-#     #             continue
-#     #     #return fini
-#     while code != 0 and not fini:
-#         new_tab_pre = []
-#         for prede in tab_pre:
-#             for sommet in tab_ref:
-#                 if sommet[0] == prede and not fini:
-#                     tab_circuit.append(sommet[0])
-#                     code = sommet[0]
-#                     for pre in range(2, len(sommet)):
-#                         new_tab_pre.append(sommet[pre])
-#                     fini = cheminCritique(new_tab_pre, tab_ref, code, tab_circuit, fini, tab_chemins)
-#                     # if not fini:
-#                     #     tab_chemins.append(tab_circuit)
-#                     #     tab_circuit = [len(tab_ref) - 1]
-#                     fini = True
-#         return fini
+# TODO : fonction qui calcul un chemin (il va ptre falloir faire quelques modifs)
+# parametre : tab avec uniquement les prédécesseurs
+# return : le chemin le plus long (liste des sommets et on calculera la duree apres)
+def cheminCritique(tab_pre, tab_ref, code, tab_circuit, fini, tab_chemins):
+    # if code == 0 or fini:
+    #     return fini
+    # else:
+    #     new_tab_pre = []
+    #     for prede in tab_pre:
+    #         if not fini:
+    #             for sommet in tab_ref:
+    #                 if sommet[0] == prede and not fini:
+    #                     tab_circuit.append(sommet[0])
+    #                     code = sommet[0]
+    #                     for pre in range(2, len(sommet)):
+    #                         new_tab_pre.append(sommet[pre])
+    #                     fini = cheminCritique(new_tab_pre, tab_ref, code, tab_circuit, fini, tab_chemins)
+    #                     if not fini:
+    #                         tab_chemins.append(tab_circuit)
+    #                         tab_circuit = [len(tab_ref)-1]
+    #                     fini = True
+    #         else:
+    #             continue
+    #     #return fini
+    while code != 0 and not fini:
+        new_tab_pre = []
+        for prede in tab_pre:
+            for sommet in tab_ref:
+                if sommet[0] == prede and not fini:
+                    tab_circuit.append(sommet[0])
+                    code = sommet[0]
+                    for pre in range(2, len(sommet)):
+                        new_tab_pre.append(sommet[pre])
+                    fini = cheminCritique(new_tab_pre, tab_ref, code, tab_circuit, fini, tab_chemins)
+                    # if not fini:
+                    #     tab_chemins.append(tab_circuit)
+                    #     tab_circuit = [len(tab_ref) - 1]
+                    fini = True
+        return fini
+
+# fonction des chamin mais avec les succ et non les prede
+# def cheminblala(tab_arcs):
+#     tab_chemins = [0]
+#     i = 0
+#     for i in range(0, tab_arcs):
+#         if tab_chemins[i] != tab_arcs[i] and tab_chemins[i-1] == :
+#             tab_chemins.append(arc[0])
+#             i += 1
