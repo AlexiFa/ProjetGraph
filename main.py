@@ -2,7 +2,7 @@ import fonctions
 import os
 
 # boucle main avec l'interface utilisateur :
-
+# en commentaire pour les tests
 while 1:
     print('Voici les fichiers texte disponible\n')
     for file in os.listdir('./tableau_test'):
@@ -15,7 +15,11 @@ while 1:
     path = ".\\tableau_test\\"+fichier
 
     # on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
-    tab = fonctions.readTab(path)  # TODO : faire une exception si le fichier n'est pas trouvé
+    try:
+        tab = fonctions.readTab(path)
+    except FileNotFoundError:
+        print("Fichier non trouvé")
+        continue
 
     # on ajoute les sommets alpha et oméga qui sont au tout début et à la toute fin pour avoir un seul pt de départ et un seul pt d'arrivée
     tab = fonctions.ajoutSommetsFictifs(tab)
@@ -24,27 +28,34 @@ while 1:
     matrice = fonctions.graph(tab)
     fonctions.afficherMatrice(matrice)
 
-    # vérif qu'il n'y ai pas de circuit
+    # vérif qu'il n'y ai pas de circuit et calcul des rangs (si jamais il y a un circuit, les rangs sont faux mais ce n'est pas grave car dans ce cas on a pas besoin de les calculer)
 
-    if fonctions.isCircuit(tab):  # il faudra ajouter la fonction de vérif des arcs positifs
+    tab_circ = [item[:] for item in tab]  # pour créer une copie sans que lorsqu'on modifi l'un l'autre change aussi (var indépendante)
+    tab_rang = fonctions.nbPrede(tab)  # avoir un tableau de la taille de tab qu'on pourra modifier dans la fonction
+
+    if fonctions.isCircuit(tab_circ, tab_rang):  # il faudra ajouter la fonction de vérif des arcs positifs
         print('Erreur, ce graph n\'est pas un graph d\'ordonnancement : on ne peu donc pas executer les calculs')
         continue
     else:
         print('il y a pas de circuit')
+        print(tab_rang)  # les affichage ici sont pour les tests
+        print(tab)
+        print(tab_circ)
 
 
-path = ".\\tableau_test\\table 1.txt"
+path = ".\\tableau_test\\table 2.txt"
 ## on stock les valeurs du .txt dans un tableau 2D pour y accéder facilement
-tab = fonctions.readTab(path)  # TODO : faire une exception si le fichier n'est pas trouvé
+try:
+    tab = fonctions.readTab(path)
+except FileNotFoundError:
+    print('Fichier non trouvé')
 
-# for val in tab:
-#     print(val)
 
 ## on ajoute les sommet alpha et oméga qui sont au tout début et à la toute fin pour avoir un seul pt de départ et un seul pt d'arrivée
 tab = fonctions.ajoutSommetsFictifs(tab)
 
-# for val in tab:
-#     print(val)
+for val in tab:
+    print(val)
 
 ### création du graph ### (sous forme de matrice de valeurs)
 
@@ -79,8 +90,15 @@ for sommet in tab:
 #     else:
 #         print("il y a un circuit")
 #         break
+tab_circ = [item[:] for item in tab]  # pour créer une copie sans que lorsqu'on modifi l'un l'autre change aussi (var indépendante)
+tab_rang = fonctions.nbPrede(tab)  # avoir un tableau de la taille de tab qu'on pourra modifier dans la fonction
 
-if fonctions.isCircuit(tab):
+if fonctions.isCircuit(tab_circ, tab_rang):
     print('il y a un circuit')
 else:
     print('il y a pas de circuit')
+
+print(tab_rang)  # AAAAH OUI LE CALCUL DES RANG MARCHE (en tout ca ca marche pour le table 2.txt) (pour les table qui ont des circuit ce n'est pas la peine de les caculer)
+print(tab)
+tab_prede = fonctions.nbPrede(tab)
+print(tab_prede)
