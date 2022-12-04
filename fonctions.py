@@ -103,10 +103,10 @@ def get_entree(graph):
     del sommet
     return tab_entree
 
-# fonction qui supprime les sommet entrée (en les effaçant de leur successeur car ils sont stockée comme prédecesseurs)
+# fonction qui supprime les sommet entrée (en les effaçant de leur successeur car ils sont stockée comme prédecesseurs), et notes les taches qui ont été suppr pour que les rangs soient attribué dans la fonction au dessus
 # parametre : tab 2D avec les info de chaque sommet (comme au début)
 # return : tab2D avec les sommets entrée effacé
-def del_entree(tab_copie, iteration, tache):
+def del_entree(tab_copie, tache):
     tab_entree = get_entree(tab_copie)  # on recup toute les entrée du graph
     indice = []  # tab avec les indices des entrée dans le tab avec tout les sommets
     indice_2 = []  # tab avec les indices des prédecesseurs qui vont être suppr
@@ -139,22 +139,22 @@ def del_entree(tab_copie, iteration, tache):
     # jsp pk mais les del ne marchent pas dans cette fonction (à chercher)
     return tab_copie
 
-# fonction qui suppr les sommets à petit pour determiner s'il y a un circuit
-# parametre : tab 2D avec les info de chaque sommet (comme au début)
+# fonction qui suppr les sommets à petit pour determiner s'il y a un circuit, elle calcul au passage les rangs des sommets
+# parametre : tab 2D avec les info de chaque sommet (comme au début), tableau qui contient les rangs des sommet aux indices correspondants
 # return : 1 si il y a un circuit et 0 s'il n'y en a pas
 def isCircuit(tab_voila, tab_rang):
-    tab_ref = [item[:] for item in tab_voila]
+    tab_ref = [item[:] for item in tab_voila]  # pour avoir le tableau sans modification pour avoir les bon indice lors du calcul des rangs
     tache = []  # les code des tache à qui on va ajouter le rang
     iteration = 0  # itération qui va determiner le rang du sommet en cours
     while len(tab_voila) >= 1:
         size_temp = len(tab_voila)
-        tab_voila = del_entree(tab_voila, iteration, tache)
-        for val in tache:
-            for a in range(0, len(tab_ref)):
-                if tab_ref[a][0] == val:
+        tab_voila = del_entree(tab_voila, tache)
+        for val in tache:  # dans ce tableau il y a toute les taches qui viennent d'etre suppr donc celle auquelles il faut tribuer les rangs
+            for a in range(0, len(tab_ref)):  # pour avoir les indices exacte auquelle on doit ajouter les rangs
+                if tab_ref[a][0] == val:  # si le code à cet indice correspond à un code auquelle on doit attribuer le rang
                     tab_rang[a] = iteration
-        tache = []
-        iteration += 1  # a chaque fois qu'on suppr les racine actuelle, on passe à l'itération suivante
+        tache = []  # reset pour les taches suivantes
+        iteration += 1  # a chaque fois qu'on suppr les racines actuelle, on passe à l'itération suivante
         size = len(tab_voila)
         if size < size_temp:
             size_temp = size
@@ -166,6 +166,7 @@ def isCircuit(tab_voila, tab_rang):
 # fonction qui calcul le nombre d'arc entrant dans un sommet (le nombre de predecesseur)
 # parametre : tab 2D avec les info de chaque sommet (comme au début)
 # return : un tableau 2D avec le nombre de prede de chaque sommet aux indices correspondant
+#### euuuh à vérifier mais je ne sais pas si elle sert à qqch cette fonction ####
 def nbPrede(tab):
     tab_nb = []
     for ligne in tab:
