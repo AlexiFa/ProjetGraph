@@ -1,6 +1,6 @@
 import fonctions
 import os
-zqeoefjqzeofihqez
+
 # boucle main avec l'interface utilisateur :
 # en commentaire pour les tests
 while 1:
