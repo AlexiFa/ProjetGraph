@@ -122,13 +122,13 @@ def del_entree(tab_copie, tache):
         for i in range(0, len(tab_copie)):  # pour chaque sommet
             if tab_copie[i][0] == entr:
                 indice.append(i)  # si le sommet actuel est une entrée, on note son indice car il faudra le suppr
-                # on ne suppr pas le sommet directement pour eviter de changer la taille du tableau quand on le parcours
-                # et on veux suppr aussi ce sommet dans les prédecesseurs
+                # on ne suppr pas le sommet directement pour éviter de changer la taille du tableau quand on le parcours
+                # et on veut suppr aussi ce sommet dans les prédécesseurs
                 for j in range(0, len(tab_copie)):  # pour chaque sommets
                     if len(tab_copie[j]) <= 2:
-                        continue  # si sa taille est de 2 (ou moins même si ca n'arrive jamais) alors il n'y a pas de predecesseur à suppr car c'est une entrée
+                        continue  # si sa taille est de 2 (ou moins même si ca n'arrive jamais) alors il n'y a pas de prédécesseur à suppr car c'est une entrée
                         # le continue fait qu'on passe au sommet suivant et on skip les lignes suivantes (dans le for)
-                    for k in range(2, len(tab_copie[j])):  # on regarde tout les predecesseurs
+                    for k in range(2, len(tab_copie[j])):  # on regarde tous les prédécesseurs
                         if tab_copie[j][k] == entr:
                             indice_2.append(k)  # si on trouve le prede, alors on note son indice car il faudra le suppr
                     for h in indice_2:  # apres avoir parcouru les prede du sommet on suppr aux indices qu'on a noté
@@ -181,11 +181,117 @@ def nbPrede(tab):
         tab_nb.append(nb)
     del ligne, nb
     return tab_nb
+
 # fonction qui verifie s'il y a un arc à valeur négative
-# parametre : tab 2D avec les info du graph
+# parametre : tab 2D avec les infos du graph
 # return : 1 s'il y a un arc négatif et 0 sinon
 def isArcNegatif(tab):
     for i in range(len(tab)):
-        if (tab[i][1] < 0):
+        if tab[i][1] < 0:
             return 1
     return 0
+
+# fonction qui caclul la durée d'un chemin donné
+# parametre : tab avec le chemin et un tableau complet du graph
+# return : un entier egale à la duree du chemin
+def calculDuree(tab_chemin, tab_ref):
+    duree = 0
+    for sommet in tab_chemin:
+        for val in tab_ref:
+            if sommet == val[0]:
+                duree += val[1]
+    return duree
+
+# fonction stock le graph avec chaque sommet et ses successeurs
+# parametre : tab 2D du graph avec toutes les infos
+# return : tab avec chaque arc et sa durée
+def graphSucc(tab):
+    pre = 0
+    succ = 0
+    duree = 0
+    arc = []  # on va stocker un sommet son succ et la durée de l'arc [sommet, duree, succ]
+    tab_arc = []
+    for sommet in tab:
+        for i in range(2, len(sommet)):
+            pre = sommet[i]
+            succ = sommet[0]
+            for val in tab:
+                if val[0] == pre:
+                    duree = val[1]
+            arc = [pre, duree, succ]
+            tab_arc.append(arc)
+    return tab_arc
+
+# fonction qui affiche le graph avec chacun de ses sommets et ses succ
+# parametre : tab avec les successeurs et les durée donnée par la fonction graphSucc et le tab ref avec toutes les info
+# return : affichage
+def afficherGraph(tab, tab_ref):
+    tab_temp = [item[:] for item in tab]  # avoir une copie qu'on peut modifier
+    tab_temp2 = [item[:] for item in tab]
+    print(len(tab_ref), ' sommets')  # affiche le nombre de sommets
+    print(len(tab), ' arcs')  # affiche le nombre d'arcs
+    # mettre dans l'ordre des successeurs le tableau
+    tab_ordre = []
+    temp = 0
+    while len(tab_temp) != 0:
+        tab_temp2 = [item[:] for item in tab_temp]
+        i = 0
+        for arc in tab_temp2:
+            temp = 0
+            for arc2 in range(0, len(tab_temp)):
+                if arc[0] > tab_temp[arc2][0]:
+                    temp = 1
+                if arc == tab_temp[arc2]:
+                    i = arc2
+            if temp == 0:
+                tab_ordre.append(arc)
+                tab_temp.pop(i)
+            i += 1
+    for arc in tab_ordre:
+        print(arc[0], ' -> ', arc[2], ' = ', arc[1])
+
+
+
+
+
+
+
+# # TODO : fonction qui calcul un chemin (il va ptre falloir faire quelques modifs)
+# # parametre : tab avec uniquement les prédécesseurs
+# # return : le chemin le plus long (liste des sommets et on calculera la duree apres)
+# def cheminCritique(tab_pre, tab_ref, code, tab_circuit, fini, tab_chemins):
+#     # if code == 0 or fini:
+#     #     return fini
+#     # else:
+#     #     new_tab_pre = []
+#     #     for prede in tab_pre:
+#     #         if not fini:
+#     #             for sommet in tab_ref:
+#     #                 if sommet[0] == prede and not fini:
+#     #                     tab_circuit.append(sommet[0])
+#     #                     code = sommet[0]
+#     #                     for pre in range(2, len(sommet)):
+#     #                         new_tab_pre.append(sommet[pre])
+#     #                     fini = cheminCritique(new_tab_pre, tab_ref, code, tab_circuit, fini, tab_chemins)
+#     #                     if not fini:
+#     #                         tab_chemins.append(tab_circuit)
+#     #                         tab_circuit = [len(tab_ref)-1]
+#     #                     fini = True
+#     #         else:
+#     #             continue
+#     #     #return fini
+#     while code != 0 and not fini:
+#         new_tab_pre = []
+#         for prede in tab_pre:
+#             for sommet in tab_ref:
+#                 if sommet[0] == prede and not fini:
+#                     tab_circuit.append(sommet[0])
+#                     code = sommet[0]
+#                     for pre in range(2, len(sommet)):
+#                         new_tab_pre.append(sommet[pre])
+#                     fini = cheminCritique(new_tab_pre, tab_ref, code, tab_circuit, fini, tab_chemins)
+#                     # if not fini:
+#                     #     tab_chemins.append(tab_circuit)
+#                     #     tab_circuit = [len(tab_ref) - 1]
+#                     fini = True
+#         return fini
